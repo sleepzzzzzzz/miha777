@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TestTask</title>
+
+</head>
+<body>
+<div class="text-center">
+    <h2>Тестовое задание</h2>
+</div>
+
+<button class="add_input, btn btn-primary" onclick="add()">Добавить input</button>
+
+<div>
+    <form action="{% url 'form_name:index' %}" method="post" id="form">
+        {% csrf_token %}
+        <div class="form-group" id="form-group">
+            {% for field in form %}
+            <div class="form-row">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if errors %}
+                    {% for error in errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="error-message">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+
+
+        <button type="submit" class="btn btn-success" id="button-submit">Submit</button>
+    </form>
+
+
+    <script>
+        var counter = 1;
+
+        function add() {
+            var input = document.createElement('input');
+            var label = document.createElement('label');
+
+            input.name = 'name' + counter;
+            input.type = "text";
+            input.id = "name" + counter;
+            label.setAttribute("for", "name" + counter);
+            label.innerHTML = "name" + counter + ":";
+
+            document.getElementById('form-group').appendChild(label);
+            document.getElementById('form-group').appendChild(input);
+
+            counter++;
+        }
+    </script>
+
+</body>
+</html>
